@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\rapidlib">
+      <UniqueIdentifier>{31e72192-4151-4399-9a10-9d0c14255408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rapidlib\dependencies">
+      <UniqueIdentifier>{ebefb471-e18f-4a7f-9f3f-610d000fef3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -24,6 +30,33 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\src\baseModel.h">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\src\classification.h">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\src\knnClassification.h">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\src\knnEmbindings.h">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\src\modelSet.h">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\src\neuralNetwork.h">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\src\regression.h">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\dependancies\json\json.h">
+      <Filter>Source Files\rapidlib\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\rapidlib\dependancies\json\json-forwards.h">
+      <Filter>Source Files\rapidlib\dependencies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -34,6 +67,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\Plugin.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\rapidlib\src\classification.cpp">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\rapidlib\src\knnClassification.cpp">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\rapidlib\src\modelSet.cpp">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\rapidlib\src\neuralNetwork.cpp">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\rapidlib\src\regression.cpp">
+      <Filter>Source Files\rapidlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\rapidlib\dependancies\jsoncpp.cpp">
+      <Filter>Source Files\rapidlib\dependencies</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

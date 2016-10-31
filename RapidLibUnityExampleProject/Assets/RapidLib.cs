@@ -10,7 +10,7 @@ public class TrainingExample
     public double[] output;
 }
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class RapidLib: MonoBehaviour {
 
     IntPtr model = (IntPtr)0;
@@ -19,11 +19,13 @@ public class RapidLib: MonoBehaviour {
 
     public double[] outputs;
 
-    public double[] TrainingOutputs;
+    //public double[] TrainingOutputs;
 
     public TrainingExample[] trainingExamples;
 
     public bool run = false;
+
+    public bool collectData = false;
 
     //Lets make our calls from the Plugin
 
@@ -84,10 +86,10 @@ public class RapidLib: MonoBehaviour {
             newExample.input[3 * i + 2] = inputs[i].position.z;
         }
 
-        newExample.output = new double[TrainingOutputs.Length];
-        for (int i = 0; i < TrainingOutputs.Length; i++)
+        newExample.output = new double[outputs.Length];
+        for (int i = 0; i < outputs.Length; i++)
         {
-            newExample.output[i] = TrainingOutputs[i];
+            newExample.output[i] = outputs[i];
         }
 
         Array.Resize<TrainingExample>(ref trainingExamples, trainingExamples.Length + 1);
@@ -144,6 +146,8 @@ public class RapidLib: MonoBehaviour {
                 Debug.Log(outputs[i]);
             }
             Debug.Log(process(model, input, input.Length, outputs, outputs.Length));
+       } else if (collectData) {
+            AddTrainingExample();
        }
     }
 }

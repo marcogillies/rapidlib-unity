@@ -30,11 +30,6 @@ EXPORT_API void destroyModel(regression *model) {
 	delete model;
 }
 
-EXPORT_API int getNumInputs(regression *model) {
-	return  model->getNumInputs();
-}
-
-
 EXPORT_API std::vector<trainingExample > * createTrainingSet() {
 	//training_sets.push_back(std::unique_ptr<std::vector<trainingExample >>(new std::vector<trainingExample >()));
 	//return training_sets.back().get();
@@ -101,22 +96,6 @@ EXPORT_API int process(regression *model, double *input, int numInputs, double *
 	return numOutputs;
 }
 
-// The functions we will call from Unity.
-//
-//const EXPORT_API char*  PrintHello(){
-//	return "Hello";
-//}
-//
-//int EXPORT_API PrintANumber(){
-//	return 5;
-//}
-//
-//int EXPORT_API AddTwoIntegers(int a, int b) {
-//	return a + b;
-//}
-//
-//float EXPORT_API AddTwoFloats(float a, float b) {
-//	return a + b;
-//}
+
 
 } // end of export C block

@@ -21,8 +21,13 @@ extern "C"
 {
 
 EXPORT_API regression * createRegressionModel() {
-	regression_models.push_back(std::unique_ptr<regression>(new regression(3, 4)));
-	return regression_models.back().get();
+	//regression_models.push_back(std::unique_ptr<regression>(new regression(3, 4)));
+	//return regression_models.back().get();
+	return new regression();
+}
+
+EXPORT_API void destroyModel(regression *model) {
+	delete model;
 }
 
 EXPORT_API int getNumInputs(regression *model) {
@@ -31,8 +36,13 @@ EXPORT_API int getNumInputs(regression *model) {
 
 
 EXPORT_API std::vector<trainingExample > * createTrainingSet() {
-	training_sets.push_back(std::unique_ptr<std::vector<trainingExample >>(new std::vector<trainingExample >()));
-	return training_sets.back().get();
+	//training_sets.push_back(std::unique_ptr<std::vector<trainingExample >>(new std::vector<trainingExample >()));
+	//return training_sets.back().get();
+	return new std::vector<trainingExample >();
+}
+
+EXPORT_API void destroyTrainingSet(std::vector<trainingExample> *trainingSet) {
+	delete trainingSet;
 }
 
 EXPORT_API void addTrainingExample(std::vector<trainingExample> *trainingSet, double *inputs, int numInputs, double *outputs, int numOutputs) {
@@ -74,19 +84,21 @@ EXPORT_API bool train(regression *model, std::vector<trainingExample> *trainingS
 	return  model->train(*trainingSet);
 }
 
-EXPORT_API bool process(regression *model, double *input, int numInputs, double *output, int numOutputs) {
+EXPORT_API int process(regression *model, double *input, int numInputs, double *output, int numOutputs) {
 	std::vector<double> inputVector;
 	for (int i = 0; i < numInputs; i++) {
 		inputVector.push_back(input[i]);
 	}
 	std::vector<double> outputVector = model->process(inputVector);
-	if (numInputs > outputVector.size()) {
-		numInputs = outputVector.size();
+	
+	if (numOutputs > outputVector.size()) {
+		numOutputs = outputVector.size();
 	}
+	
 	for (int i = 0; i < numOutputs; i++) {
 		output[i] = outputVector[i];
 	}
-	return true;
+	return numOutputs;
 }
 
 // The functions we will call from Unity.

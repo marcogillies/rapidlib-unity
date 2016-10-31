@@ -74,6 +74,20 @@ EXPORT_API bool train(regression *model, std::vector<trainingExample> *trainingS
 	return  model->train(*trainingSet);
 }
 
+EXPORT_API bool process(regression *model, double *input, int numInputs, double *output, int numOutputs) {
+	std::vector<double> inputVector;
+	for (int i = 0; i < numInputs; i++) {
+		inputVector.push_back(input[i]);
+	}
+	std::vector<double> outputVector = model->process(inputVector);
+	if (numInputs > outputVector.size()) {
+		numInputs = outputVector.size();
+	}
+	for (int i = 0; i < numOutputs; i++) {
+		output[i] = outputVector[i];
+	}
+	return true;
+}
 
 // The functions we will call from Unity.
 //

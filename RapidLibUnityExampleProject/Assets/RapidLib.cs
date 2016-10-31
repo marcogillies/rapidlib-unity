@@ -30,19 +30,22 @@ public class RapidLib: MonoBehaviour {
     [DllImport("RapidLibPlugin")]
     private static extern bool train(IntPtr model, IntPtr trainingSet);
 
-    //   [DllImport ("RapidLibPlugin")]
-    //private static extern int PrintANumber();
+    [DllImport("RapidLibPlugin")]
+    private static extern bool process(IntPtr model, double [] input, int numInputs, double [] output, int numOutputs);
 
-    //[DllImport ("RapidLibPlugin")]
-    //private static extern IntPtr PrintHello();
+        //   [DllImport ("RapidLibPlugin")]
+        //private static extern int PrintANumber();
 
-    //[DllImport ("RapidLibPlugin")]
-    //private static extern int AddTwoIntegers(int i1,int i2);
+        //[DllImport ("RapidLibPlugin")]
+        //private static extern IntPtr PrintHello();
 
-    //[DllImport ("RapidLibPlugin")]
-    //private static extern float AddTwoFloats(float f1,float f2);	
+        //[DllImport ("RapidLibPlugin")]
+        //private static extern int AddTwoIntegers(int i1,int i2);
 
-    void Start () {
+        //[DllImport ("RapidLibPlugin")]
+        //private static extern float AddTwoFloats(float f1,float f2);	
+
+        void Start () {
 		//Debug.Log(PrintANumber());
 		//Debug.Log(Marshal.PtrToStringAuto (PrintHello()));
 		//Debug.Log(AddTwoIntegers(2,2));
@@ -53,9 +56,26 @@ public class RapidLib: MonoBehaviour {
         Debug.Log("new version");
 
         IntPtr trainingSet = createTrainingSet();
-        double[] inputs = { 1.0, 2.0 };
-        double[] outputs = { 1.0, 2.0, 3.0 };
+        double[] inputs = { 0.0, 0.0, 0.0 };
+        double[] outputs = { 0.0, 0.0 };
         addTrainingExample(trainingSet, inputs, inputs.Length, outputs, outputs.Length);
+        for (int i = 0; i < 5; i++)
+        {
+            inputs[0] = i;
+            for (int j = 0; j < 5; j++)
+            {
+                inputs[1] = j;
+                for (int k = 0; k < 5; k++)
+                {
+                    inputs[2] = k;
+                    outputs[0] = i + j + k;
+                    outputs[1] = i + j;
+                    addTrainingExample(trainingSet, inputs, inputs.Length, outputs, outputs.Length);
+                }
+            }
+        }
+        
+        //addTrainingExample(trainingSet, inputs, inputs.Length, outputs, outputs.Length);
         //addTrainingExample(trainingSet);
         //addTrainingExample(trainingSet);
         Debug.Log(getNumTrainingExamples(trainingSet));
@@ -65,5 +85,24 @@ public class RapidLib: MonoBehaviour {
         Debug.Log(train(model, trainingSet));
         Debug.Log(getNumInputs(model));
 
+
+        for (int i = 0; i < inputs.Length; i++)
+        {
+            Debug.Log(inputs[i]);
+        }
+
+        for (int i = 0; i < outputs.Length; i++) {
+            outputs[i] = 0.0;
+        }
+        for (int i = 0; i < outputs.Length; i++)
+        {
+            Debug.Log(outputs[i]);
+        }
+        process(model, inputs, inputs.Length, outputs, outputs.Length);
+        for (int i = 0; i < outputs.Length; i++)
+        {
+            Debug.Log(outputs[i]);
+        }
+        
     }
 }

@@ -15,6 +15,8 @@ public class RapidLib: MonoBehaviour {
 
     IntPtr model = (IntPtr)0;
 
+    public bool classification = false;
+
     public Transform[] inputs;
 
     public double[] outputs;
@@ -33,6 +35,9 @@ public class RapidLib: MonoBehaviour {
 
     [DllImport("RapidLibPlugin")]
     private static extern IntPtr createRegressionModel();
+
+    [DllImport("RapidLibPlugin")]
+    private static extern IntPtr createClassificationModel();
 
     [DllImport("RapidLibPlugin")]
     private static extern void destroyModel(IntPtr model);
@@ -63,7 +68,10 @@ public class RapidLib: MonoBehaviour {
     private static extern double getOutput(IntPtr trainingSet, int i, int j);
 
     [DllImport("RapidLibPlugin")]
-    private static extern bool train(IntPtr model, IntPtr trainingSet);
+    private static extern bool trainRegression(IntPtr model, IntPtr trainingSet);
+
+    [DllImport("RapidLibPlugin")]
+    private static extern bool trainClassification(IntPtr model, IntPtr trainingSet);
 
     [DllImport("RapidLibPlugin")]
     private static extern int process(IntPtr model, double [] input, int numInputs, double [] output, int numOutputs);
@@ -127,8 +135,14 @@ public class RapidLib: MonoBehaviour {
             destroyModel(model);
         }
         model = (IntPtr)0;
-        
-        model = createRegressionModel();
+
+        if (classification)
+        {
+            model = createClassificationModel();
+        } else
+        {
+            model = createRegressionModel();
+        }
         
         Debug.Log("created model");
         
@@ -139,10 +153,20 @@ public class RapidLib: MonoBehaviour {
         }
 
         Debug.Log("created training set");
-        
-        if (!train(model, trainingSet))
+
+        if (classification)
         {
-            Debug.Log("training failed");
+            if (!trainClassification(model, trainingSet))
+            {
+                Debug.Log("training failed");
+            }
+        }
+        else
+        {
+            if (!trainRegression(model, trainingSet))
+            {
+                Debug.Log("training failed");
+            }
         }
 
         Debug.Log("finished training");

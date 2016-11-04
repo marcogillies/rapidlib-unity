@@ -30,6 +30,20 @@ EXPORT_API void destroyModel(regression *model) {
 	delete model;
 }
 
+EXPORT_API const char * getJSON(regression *model) {
+	//std::string jsonString = model->getJSON();
+	//char * jsonCString = new char[jsonString.size() + 1];
+	//std::copy(jsonString.begin(), jsonString.end(), jsonCString);
+	//jsonCString[jsonString.size()] = '\0';
+	//return jsonCString;
+	//return ::SysAllocString(L"Greetings from the native world!");
+	return "hello";
+}
+
+EXPORT_API void putJSON(regression *model, const char *jsonString) {
+	model->putJSON(jsonString);
+}
+
 EXPORT_API std::vector<trainingExample > * createTrainingSet() {
 	//training_sets.push_back(std::unique_ptr<std::vector<trainingExample >>(new std::vector<trainingExample >()));
 	//return training_sets.back().get();

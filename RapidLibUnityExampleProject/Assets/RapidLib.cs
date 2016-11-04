@@ -27,6 +27,8 @@ public class RapidLib: MonoBehaviour {
 
     public bool collectData = false;
 
+    public string jsonString = "";
+
     //Lets make our calls from the Plugin
 
     [DllImport("RapidLibPlugin")]
@@ -34,6 +36,13 @@ public class RapidLib: MonoBehaviour {
 
     [DllImport("RapidLibPlugin")]
     private static extern void destroyModel(IntPtr model);
+
+    [DllImport("RapidLibPlugin")]
+    //[return: MarshalAs(UnmanagedType.LPStr)]
+    private static extern IntPtr getJSON(IntPtr model);
+
+    [DllImport("RapidLibPlugin")]
+    private static extern void putJSON(IntPtr model, string jsonString);
 
     [DllImport("RapidLibPlugin")]
     private static extern IntPtr createTrainingSet();
@@ -62,7 +71,17 @@ public class RapidLib: MonoBehaviour {
 
     void Start () {
         //model = (IntPtr)0;
-        Train();
+        //Train();
+        //jsonString = "";
+        if ((int)model != 0)
+        {
+            destroyModel(model);
+        }
+        model = (IntPtr)0;
+
+        model = createRegressionModel();
+
+        putJSON(model, jsonString);
     }
 
     void OnDestroy()
@@ -101,23 +120,43 @@ public class RapidLib: MonoBehaviour {
     {
         Debug.Log("training");
 
+        if (trainingExamples.Length <= 0) return;
+
         if ((int)model != 0)
         {
             destroyModel(model);
         }
         model = (IntPtr)0;
-
+        
         model = createRegressionModel();
+        
+        Debug.Log("created model");
+        
         IntPtr trainingSet = createTrainingSet();
         for(int i = 0; i < trainingExamples.Length; i++)
         {
             addTrainingExample(trainingSet, trainingExamples[i].input, trainingExamples[i].input.Length, trainingExamples[i].output, trainingExamples[i].output.Length);
         }
-        if(!train(model, trainingSet))
+
+        Debug.Log("created training set");
+        
+        if (!train(model, trainingSet))
         {
             Debug.Log("training failed");
         }
+
+        Debug.Log("finished training");
+
         destroyTrainingSet(trainingSet);
+        
+        Debug.Log("about to save");
+
+        //jsonString = getJSON(model);
+        jsonString = Marshal.PtrToStringAnsi(getJSON(model));
+
+        Debug.Log("saved");
+
+        Debug.Log(jsonString);
     }
 
     void Update()
@@ -149,5 +188,15 @@ public class RapidLib: MonoBehaviour {
        } else if (collectData) {
             AddTrainingExample();
        }
+
+#if UNITY_EDITOR
+
+        if (Input.GetKeyDown("space"))
+        {
+            collectData = !collectData;
+        }
+
+#endif
+
     }
 }

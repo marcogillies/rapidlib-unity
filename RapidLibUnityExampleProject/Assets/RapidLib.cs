@@ -87,9 +87,16 @@ public class RapidLib: MonoBehaviour {
         }
         model = (IntPtr)0;
 
-        model = createRegressionModel();
+        if (classification)
+        {
+            Train();
+        }
+        else
+        {
+            model = createRegressionModel();
 
-        putJSON(model, jsonString);
+            putJSON(model, jsonString);
+        }
     }
 
     void OnDestroy()
@@ -176,7 +183,10 @@ public class RapidLib: MonoBehaviour {
         Debug.Log("about to save");
 
         //jsonString = getJSON(model);
-        jsonString = Marshal.PtrToStringAnsi(getJSON(model));
+        if (!classification)
+        {
+            jsonString = Marshal.PtrToStringAnsi(getJSON(model));
+        }
 
         Debug.Log("saved");
 
@@ -195,20 +205,20 @@ public class RapidLib: MonoBehaviour {
                 input[3 * i + 2] = inputs[i].position.z;
             }
 
-            Debug.Log(input);
-            Debug.Log(input.Length);
-            for (int i = 0; i < input.Length; i++)
-            {
-                Debug.Log(input[i]);
-            }
+            //Debug.Log(input);
+            //Debug.Log(input.Length);
+            //for (int i = 0; i < input.Length; i++)
+            //{
+            //    Debug.Log(input[i]);
+            //}
 
-            Debug.Log(outputs);
-            Debug.Log(outputs.Length);
+            //Debug.Log(outputs);
+            //Debug.Log(outputs.Length);
             for (int i = 0; i < outputs.Length; i++)
             {
                 Debug.Log(outputs[i]);
             }
-            Debug.Log(process(model, input, input.Length, outputs, outputs.Length));
+            process(model, input, input.Length, outputs, outputs.Length);
        } else if (collectData) {
             AddTrainingExample();
        }

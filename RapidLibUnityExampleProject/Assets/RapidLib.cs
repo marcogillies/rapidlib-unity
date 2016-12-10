@@ -15,6 +15,8 @@ public class RapidLib: MonoBehaviour {
 
     IntPtr model = (IntPtr)0;
 
+    public bool classification = false;
+
     public Transform[] inputs;
 
     public double[] outputs;
@@ -27,13 +29,25 @@ public class RapidLib: MonoBehaviour {
 
     public bool collectData = false;
 
+    public string jsonString = "";
+
     //Lets make our calls from the Plugin
 
     [DllImport("RapidLibPlugin")]
     private static extern IntPtr createRegressionModel();
 
     [DllImport("RapidLibPlugin")]
+    private static extern IntPtr createClassificationModel();
+
+    [DllImport("RapidLibPlugin")]
     private static extern void destroyModel(IntPtr model);
+
+    [DllImport("RapidLibPlugin")]
+    //[return: MarshalAs(UnmanagedType.LPStr)]
+    private static extern IntPtr getJSON(IntPtr model);
+
+    [DllImport("RapidLibPlugin")]
+    private static extern void putJSON(IntPtr model, string jsonString);
 
     [DllImport("RapidLibPlugin")]
     private static extern IntPtr createTrainingSet();
@@ -54,7 +68,10 @@ public class RapidLib: MonoBehaviour {
     private static extern double getOutput(IntPtr trainingSet, int i, int j);
 
     [DllImport("RapidLibPlugin")]
-    private static extern bool train(IntPtr model, IntPtr trainingSet);
+    private static extern bool trainRegression(IntPtr model, IntPtr trainingSet);
+
+    [DllImport("RapidLibPlugin")]
+    private static extern bool trainClassification(IntPtr model, IntPtr trainingSet);
 
     [DllImport("RapidLibPlugin")]
     private static extern int process(IntPtr model, double [] input, int numInputs, double [] output, int numOutputs);
@@ -62,7 +79,24 @@ public class RapidLib: MonoBehaviour {
 
     void Start () {
         //model = (IntPtr)0;
-        Train();
+        //Train();
+        //jsonString = "";
+        if ((int)model != 0)
+        {
+            destroyModel(model);
+        }
+        model = (IntPtr)0;
+
+        if (classification)
+        {
+            Train();
+        }
+        else
+        {
+            model = createRegressionModel();
+
+            putJSON(model, jsonString);
+        }
     }
 
     void OnDestroy()
@@ -101,23 +135,62 @@ public class RapidLib: MonoBehaviour {
     {
         Debug.Log("training");
 
+        if (trainingExamples.Length <= 0) return;
+
         if ((int)model != 0)
         {
             destroyModel(model);
         }
         model = (IntPtr)0;
 
-        model = createRegressionModel();
+        if (classification)
+        {
+            model = createClassificationModel();
+        } else
+        {
+            model = createRegressionModel();
+        }
+        
+        Debug.Log("created model");
+        
         IntPtr trainingSet = createTrainingSet();
         for(int i = 0; i < trainingExamples.Length; i++)
         {
             addTrainingExample(trainingSet, trainingExamples[i].input, trainingExamples[i].input.Length, trainingExamples[i].output, trainingExamples[i].output.Length);
         }
-        if(!train(model, trainingSet))
+
+        Debug.Log("created training set");
+
+        if (classification)
         {
-            Debug.Log("training failed");
+            if (!trainClassification(model, trainingSet))
+            {
+                Debug.Log("training failed");
+            }
         }
+        else
+        {
+            if (!trainRegression(model, trainingSet))
+            {
+                Debug.Log("training failed");
+            }
+        }
+
+        Debug.Log("finished training");
+
         destroyTrainingSet(trainingSet);
+        
+        Debug.Log("about to save");
+
+        //jsonString = getJSON(model);
+        if (!classification)
+        {
+            jsonString = Marshal.PtrToStringAnsi(getJSON(model));
+        }
+
+        Debug.Log("saved");
+
+        Debug.Log(jsonString);
     }
 
     void Update()
@@ -132,22 +205,32 @@ public class RapidLib: MonoBehaviour {
                 input[3 * i + 2] = inputs[i].position.z;
             }
 
-            Debug.Log(input);
-            Debug.Log(input.Length);
-            for (int i = 0; i < input.Length; i++)
-            {
-                Debug.Log(input[i]);
-            }
+            //Debug.Log(input);
+            //Debug.Log(input.Length);
+            //for (int i = 0; i < input.Length; i++)
+            //{
+            //    Debug.Log(input[i]);
+            //}
 
-            Debug.Log(outputs);
-            Debug.Log(outputs.Length);
+            //Debug.Log(outputs);
+            //Debug.Log(outputs.Length);
             for (int i = 0; i < outputs.Length; i++)
             {
                 Debug.Log(outputs[i]);
             }
-            Debug.Log(process(model, input, input.Length, outputs, outputs.Length));
+            process(model, input, input.Length, outputs, outputs.Length);
        } else if (collectData) {
             AddTrainingExample();
        }
+
+#if UNITY_EDITOR
+
+        if (Input.GetKeyDown("space"))
+        {
+            collectData = !collectData;
+        }
+
+#endif
+
     }
 }

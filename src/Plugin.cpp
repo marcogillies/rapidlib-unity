@@ -11,6 +11,7 @@
 #include <vector>
 #include <memory>
 #include "regression.h"
+#include "classification.h"
 
 
 std::vector < std::unique_ptr <regression> > regression_models;
@@ -26,8 +27,30 @@ EXPORT_API regression * createRegressionModel() {
 	return new regression();
 }
 
-EXPORT_API void destroyModel(regression *model) {
+EXPORT_API void destroyModel(modelSet *model) {
 	delete model;
+}
+
+
+EXPORT_API classification * createClassificationModel() {
+	//regression_models.push_back(std::unique_ptr<regression>(new regression(3, 4)));
+	//return regression_models.back().get();
+	return new classification();
+}
+
+
+EXPORT_API const char * getJSON(modelSet *model) {
+	std::string jsonString = model->getJSON();
+	char * jsonCString = new char[jsonString.size() + 1];
+	std::copy(jsonString.begin(), jsonString.end(), jsonCString);
+	jsonCString[jsonString.size()] = '\0';
+	return jsonCString;
+	//return ::SysAllocString(L"Greetings from the native world!");
+	//return "hello";
+}
+
+EXPORT_API void putJSON(modelSet *model, const char *jsonString) {
+	model->putJSON(jsonString);
 }
 
 EXPORT_API std::vector<trainingExample > * createTrainingSet() {
@@ -74,12 +97,17 @@ EXPORT_API double getOutput(std::vector<trainingExample> *trainingSet, int i, in
 	return 0.0;
 }
 
-EXPORT_API bool train(regression *model, std::vector<trainingExample> *trainingSet) {
+EXPORT_API bool trainRegression(regression *model, std::vector<trainingExample> *trainingSet) {
 	model->initialize();
 	return  model->train(*trainingSet);
 }
 
-EXPORT_API int process(regression *model, double *input, int numInputs, double *output, int numOutputs) {
+EXPORT_API bool trainClassification(classification *model, std::vector<trainingExample> *trainingSet) {
+	model->initialize();
+	return  model->train(*trainingSet);
+}
+
+EXPORT_API int process(modelSet *model, double *input, int numInputs, double *output, int numOutputs) {
 	std::vector<double> inputVector;
 	for (int i = 0; i < numInputs; i++) {
 		inputVector.push_back(input[i]);

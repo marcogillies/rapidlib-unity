@@ -1,0 +1,328 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A96A36C11DC7DF1900FA2522 /* Plugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A96A36C01DC7DF1900FA2522 /* Plugin.cpp */; };
+		A96A36CE1DC7DF4000FA2522 /* classification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A96A36C41DC7DF4000FA2522 /* classification.cpp */; };
+		A96A36CF1DC7DF4000FA2522 /* knnClassification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A96A36C61DC7DF4000FA2522 /* knnClassification.cpp */; };
+		A96A36D01DC7DF4000FA2522 /* modelSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A96A36C81DC7DF4000FA2522 /* modelSet.cpp */; };
+		A96A36D11DC7DF4000FA2522 /* neuralNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A96A36CA1DC7DF4000FA2522 /* neuralNetwork.cpp */; };
+		A96A36D21DC7DF4000FA2522 /* regression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A96A36CC1DC7DF4000FA2522 /* regression.cpp */; };
+		A96A36D51DC7DF5D00FA2522 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A96A36D41DC7DF5D00FA2522 /* jsoncpp.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A96A36B71DC7DEF500FA2522 /* rapidlib-unity.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rapidlib-unity.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A96A36BA1DC7DEF500FA2522 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A96A36C01DC7DF1900FA2522 /* Plugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Plugin.cpp; path = ../../../src/Plugin.cpp; sourceTree = "<group>"; };
+		A96A36C31DC7DF4000FA2522 /* baseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = baseModel.h; path = ../../../rapidlib/src/baseModel.h; sourceTree = "<group>"; };
+		A96A36C41DC7DF4000FA2522 /* classification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = classification.cpp; path = ../../../rapidlib/src/classification.cpp; sourceTree = "<group>"; };
+		A96A36C51DC7DF4000FA2522 /* classification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classification.h; path = ../../../rapidlib/src/classification.h; sourceTree = "<group>"; };
+		A96A36C61DC7DF4000FA2522 /* knnClassification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = knnClassification.cpp; path = ../../../rapidlib/src/knnClassification.cpp; sourceTree = "<group>"; };
+		A96A36C71DC7DF4000FA2522 /* knnClassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = knnClassification.h; path = ../../../rapidlib/src/knnClassification.h; sourceTree = "<group>"; };
+		A96A36C81DC7DF4000FA2522 /* modelSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = modelSet.cpp; path = ../../../rapidlib/src/modelSet.cpp; sourceTree = "<group>"; };
+		A96A36C91DC7DF4000FA2522 /* modelSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = modelSet.h; path = ../../../rapidlib/src/modelSet.h; sourceTree = "<group>"; };
+		A96A36CA1DC7DF4000FA2522 /* neuralNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = neuralNetwork.cpp; path = ../../../rapidlib/src/neuralNetwork.cpp; sourceTree = "<group>"; };
+		A96A36CB1DC7DF4000FA2522 /* neuralNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = neuralNetwork.h; path = ../../../rapidlib/src/neuralNetwork.h; sourceTree = "<group>"; };
+		A96A36CC1DC7DF4000FA2522 /* regression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = regression.cpp; path = ../../../rapidlib/src/regression.cpp; sourceTree = "<group>"; };
+		A96A36CD1DC7DF4000FA2522 /* regression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = regression.h; path = ../../../rapidlib/src/regression.h; sourceTree = "<group>"; };
+		A96A36D41DC7DF5D00FA2522 /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsoncpp.cpp; path = ../../../rapidlib/dependancies/jsoncpp.cpp; sourceTree = "<group>"; };
+		A96A36D61DC7DF6C00FA2522 /* json-forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "json-forwards.h"; path = "../../../rapidlib/dependancies/json/json-forwards.h"; sourceTree = "<group>"; };
+		A96A36D71DC7DF6C00FA2522 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json.h; path = ../../../rapidlib/dependancies/json/json.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A96A36B41DC7DEF400FA2522 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A96A36AE1DC7DEF400FA2522 = {
+			isa = PBXGroup;
+			children = (
+				A96A36B91DC7DEF500FA2522 /* rapidlib-unity */,
+				A96A36B81DC7DEF500FA2522 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A96A36B81DC7DEF500FA2522 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A96A36B71DC7DEF500FA2522 /* rapidlib-unity.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A96A36B91DC7DEF500FA2522 /* rapidlib-unity */ = {
+			isa = PBXGroup;
+			children = (
+				A96A36C21DC7DF1F00FA2522 /* rapidlib */,
+				A96A36C01DC7DF1900FA2522 /* Plugin.cpp */,
+				A96A36BA1DC7DEF500FA2522 /* Info.plist */,
+			);
+			path = "rapidlib-unity";
+			sourceTree = "<group>";
+		};
+		A96A36C21DC7DF1F00FA2522 /* rapidlib */ = {
+			isa = PBXGroup;
+			children = (
+				A96A36D31DC7DF4400FA2522 /* json */,
+				A96A36C31DC7DF4000FA2522 /* baseModel.h */,
+				A96A36C41DC7DF4000FA2522 /* classification.cpp */,
+				A96A36C51DC7DF4000FA2522 /* classification.h */,
+				A96A36C61DC7DF4000FA2522 /* knnClassification.cpp */,
+				A96A36C71DC7DF4000FA2522 /* knnClassification.h */,
+				A96A36C81DC7DF4000FA2522 /* modelSet.cpp */,
+				A96A36C91DC7DF4000FA2522 /* modelSet.h */,
+				A96A36CA1DC7DF4000FA2522 /* neuralNetwork.cpp */,
+				A96A36CB1DC7DF4000FA2522 /* neuralNetwork.h */,
+				A96A36CC1DC7DF4000FA2522 /* regression.cpp */,
+				A96A36CD1DC7DF4000FA2522 /* regression.h */,
+			);
+			name = rapidlib;
+			sourceTree = "<group>";
+		};
+		A96A36D31DC7DF4400FA2522 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				A96A36D61DC7DF6C00FA2522 /* json-forwards.h */,
+				A96A36D71DC7DF6C00FA2522 /* json.h */,
+				A96A36D41DC7DF5D00FA2522 /* jsoncpp.cpp */,
+			);
+			name = json;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A96A36B61DC7DEF400FA2522 /* rapidlib-unity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A96A36BD1DC7DEF500FA2522 /* Build configuration list for PBXNativeTarget "rapidlib-unity" */;
+			buildPhases = (
+				A96A36B31DC7DEF400FA2522 /* Sources */,
+				A96A36B41DC7DEF400FA2522 /* Frameworks */,
+				A96A36B51DC7DEF400FA2522 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "rapidlib-unity";
+			productName = "rapidlib-unity";
+			productReference = A96A36B71DC7DEF500FA2522 /* rapidlib-unity.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A96A36AF1DC7DEF400FA2522 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = "Marco Gillies";
+				TargetAttributes = {
+					A96A36B61DC7DEF400FA2522 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A96A36B21DC7DEF400FA2522 /* Build configuration list for PBXProject "rapidlib-unity" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A96A36AE1DC7DEF400FA2522;
+			productRefGroup = A96A36B81DC7DEF500FA2522 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A96A36B61DC7DEF400FA2522 /* rapidlib-unity */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A96A36B51DC7DEF400FA2522 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A96A36B31DC7DEF400FA2522 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A96A36C11DC7DF1900FA2522 /* Plugin.cpp in Sources */,
+				A96A36CF1DC7DF4000FA2522 /* knnClassification.cpp in Sources */,
+				A96A36D01DC7DF4000FA2522 /* modelSet.cpp in Sources */,
+				A96A36CE1DC7DF4000FA2522 /* classification.cpp in Sources */,
+				A96A36D21DC7DF4000FA2522 /* regression.cpp in Sources */,
+				A96A36D11DC7DF4000FA2522 /* neuralNetwork.cpp in Sources */,
+				A96A36D51DC7DF5D00FA2522 /* jsoncpp.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A96A36BB1DC7DEF500FA2522 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A96A36BC1DC7DEF500FA2522 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A96A36BE1DC7DEF500FA2522 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/";
+				INFOPLIST_FILE = "rapidlib-unity/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.ac.gold.mas02mg.RapidLibPlugin;
+				PRODUCT_NAME = RapidLibPlugin;
+				SKIP_INSTALL = YES;
+				SYMROOT = "${SRCROOT}/mybuild";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		A96A36BF1DC7DEF500FA2522 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/";
+				INFOPLIST_FILE = "rapidlib-unity/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.ac.gold.mas02mg.RapidLibPlugin;
+				PRODUCT_NAME = RapidLibPlugin;
+				SKIP_INSTALL = YES;
+				SYMROOT = "${SRCROOT}/mybuild";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A96A36B21DC7DEF400FA2522 /* Build configuration list for PBXProject "rapidlib-unity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A96A36BB1DC7DEF500FA2522 /* Debug */,
+				A96A36BC1DC7DEF500FA2522 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A96A36BD1DC7DEF500FA2522 /* Build configuration list for PBXNativeTarget "rapidlib-unity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A96A36BE1DC7DEF500FA2522 /* Debug */,
+				A96A36BF1DC7DEF500FA2522 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A96A36AF1DC7DEF400FA2522 /* Project object */;
+}

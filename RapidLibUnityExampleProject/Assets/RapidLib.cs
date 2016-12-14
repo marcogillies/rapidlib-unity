@@ -17,6 +17,12 @@ public class RapidLib: MonoBehaviour {
 
     public bool classification = false;
 
+	public float startDelay = 0.0f;
+	public float captureRate = 10.0f;
+	public float recordTime = -1.0f;
+	float timeToNextCapture = 0.0f;
+	float timeToStopCapture = 0.0f;
+
     public Transform[] inputs;
 
     public double[] outputs;
@@ -193,8 +199,22 @@ public class RapidLib: MonoBehaviour {
         Debug.Log(jsonString);
     }
 
+	public void ToggleRecording(){
+		collectData = !collectData;
+		if(collectData){
+			Debug.Log("starting recording in " + startDelay + " seconds");
+			timeToNextCapture = Time.time + startDelay;
+			if(recordTime > 0){
+				timeToStopCapture = Time.time + startDelay + recordTime;
+			}else {
+				timeToStopCapture = -1;
+			}
+		}
+	}
+
     void Update()
     {
+		Debug.Log ("update " + Time.time);
         if (run && (int)model != 0) { 
             double [] input = new double[3 * inputs.Length];
 
@@ -214,23 +234,37 @@ public class RapidLib: MonoBehaviour {
 
             //Debug.Log(outputs);
             //Debug.Log(outputs.Length);
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                Debug.Log(outputs[i]);
-            }
-            process(model, input, input.Length, outputs, outputs.Length);
+			process(model, input, input.Length, outputs, outputs.Length);
+			for (int i = 0; i < outputs.Length; i++)
+			{
+				Debug.Log(outputs[i]);
+			}
        } else if (collectData) {
-            AddTrainingExample();
+			if (Application.isPlaying && Time.time >= timeToStopCapture) {
+				collectData = false;
+				Debug.Log ("end recording");
+			} else if (!Application.isPlaying || Time.time >= timeToNextCapture) {
+				Debug.Log ("recording");
+				AddTrainingExample ();
+				timeToNextCapture = Time.time + 1.0f / captureRate;
+			}
+
        }
 
 #if UNITY_EDITOR
 
         if (Input.GetKeyDown("space"))
         {
-            collectData = !collectData;
+			ToggleRecording();
         }
 
 #endif
 
     }
+
+	void OnGUI(){
+		if (collectData) {
+			GUI.Label (new Rect (20, 20, 100, 100), "time to capture " + (timeToNextCapture - Time.time));
+		}
+	}
 }

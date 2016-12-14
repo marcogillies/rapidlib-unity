@@ -15,7 +15,11 @@ public class RapidLibEditor : Editor
         {
             rapidLib.AddTrainingExample();
         }
-        if (GUILayout.Button("train"))
+		if (GUILayout.Button("collect data"))
+		{
+			rapidLib.ToggleRecording();
+		}
+		if (GUILayout.Button("train"))
         {
             rapidLib.Train();
         }

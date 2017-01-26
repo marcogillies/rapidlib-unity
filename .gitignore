@@ -327,3 +327,6 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+
+# Mac generic
+.DS_Store

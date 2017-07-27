@@ -76,7 +76,7 @@ public class RapidLib: MonoBehaviour {
     [DllImport("RapidLibPlugin")]
     private static extern int process(IntPtr model, double [] input, int numInputs, double [] output, int numOutputs);
     
-
+    
     void Start () {
         //model = (IntPtr)0;
         //Train();

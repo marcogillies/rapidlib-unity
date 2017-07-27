@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Linq;
 
 [Serializable]
 public class TrainingExample
@@ -10,12 +12,23 @@ public class TrainingExample
     public double[] output;
 }
 
+[Serializable]
+public class TrainingSeries
+{
+    public List<TrainingExample> examples;
+}
+
 [ExecuteInEditMode]
 public class RapidLib: MonoBehaviour {
 
     IntPtr model = (IntPtr)0;
 
-    public bool classification = false;
+    public enum LearningType { Classification, Regression, DTW };
+
+    //This is what you need to show in the inspector.
+    public LearningType learningType;
+
+    //public bool classification = false;
 
     public Transform[] inputs;
 
@@ -23,7 +36,9 @@ public class RapidLib: MonoBehaviour {
 
     //public double[] TrainingOutputs;
 
-    public TrainingExample[] trainingExamples;
+    public List<TrainingExample> trainingExamples;
+
+    public List<TrainingSeries> trainingSerieses;
 
     public bool run = false;
 
@@ -40,7 +55,13 @@ public class RapidLib: MonoBehaviour {
     private static extern IntPtr createClassificationModel();
 
     [DllImport("RapidLibPlugin")]
+    private static extern IntPtr createSeriesClassificationModel();
+
+    [DllImport("RapidLibPlugin")]
     private static extern void destroyModel(IntPtr model);
+
+    [DllImport("RapidLibPlugin")]
+    private static extern void destroySeriesClassificationModel(IntPtr model);
 
     [DllImport("RapidLibPlugin")]
     //[return: MarshalAs(UnmanagedType.LPStr)]
@@ -75,8 +96,20 @@ public class RapidLib: MonoBehaviour {
 
     [DllImport("RapidLibPlugin")]
     private static extern int process(IntPtr model, double [] input, int numInputs, double [] output, int numOutputs);
-    
-    
+
+    [DllImport("RapidLibPlugin")]
+    private static extern bool resetSeriesClassification(IntPtr model);
+
+    [DllImport("RapidLibPlugin")]
+    private static extern bool addSeries(IntPtr model, IntPtr trainingSet);
+
+    [DllImport("RapidLibPlugin")]
+    private static extern int runSeriesClassification(IntPtr model, IntPtr trainingSet);
+
+    [DllImport("RapidLibPlugin")]
+    private static extern int getSeriesClassificationCosts(IntPtr model, double[] output, int numOutputs);
+
+
     void Start () {
         //model = (IntPtr)0;
         //Train();
@@ -87,15 +120,15 @@ public class RapidLib: MonoBehaviour {
         }
         model = (IntPtr)0;
 
-        if (classification)
-        {
-            Train();
-        }
-        else
+        if (learningType == LearningType.Regression)
         {
             model = createRegressionModel();
 
             putJSON(model, jsonString);
+        }
+        else
+        {
+            Train();
         }
     }
 
@@ -103,7 +136,14 @@ public class RapidLib: MonoBehaviour {
     {
         if ((int)model != 0)
         {
-            destroyModel(model);
+            if (learningType == LearningType.DTW)
+            {
+                destroySeriesClassificationModel(model);
+            } else
+            {
+                destroyModel(model);
+            }
+                
         }
         model = (IntPtr)0;
     }
@@ -126,16 +166,22 @@ public class RapidLib: MonoBehaviour {
             newExample.output[i] = outputs[i];
         }
 
-        Array.Resize<TrainingExample>(ref trainingExamples, trainingExamples.Length + 1);
-        trainingExamples[trainingExamples.Length - 1] = newExample;
-
+        //Array.Resize<TrainingExample>(ref trainingExamples, trainingExamples.Length + 1);
+        //trainingExamples[trainingExamples.Length - 1] = newExample;
+        trainingExamples.Add(newExample);
+        
     }
 
     public void Train()
     {
         Debug.Log("training");
+        Debug.Log(model);
 
-        if (trainingExamples.Length <= 0) return;
+        if (learningType == LearningType.DTW) {
+            if (trainingSerieses.Count <= 0) return;
+        } else {
+            if(trainingExamples.Count <= 0) return;
+        }
 
         if ((int)model != 0)
         {
@@ -143,37 +189,79 @@ public class RapidLib: MonoBehaviour {
         }
         model = (IntPtr)0;
 
-        if (classification)
+        if (learningType == LearningType.Classification)
         {
             model = createClassificationModel();
-        } else
+        } else if (learningType == LearningType.Regression)
         {
             model = createRegressionModel();
-        }
-        
-        Debug.Log("created model");
-        
-        IntPtr trainingSet = createTrainingSet();
-        for(int i = 0; i < trainingExamples.Length; i++)
+        } else if (learningType == LearningType.DTW)
         {
-            addTrainingExample(trainingSet, trainingExamples[i].input, trainingExamples[i].input.Length, trainingExamples[i].output, trainingExamples[i].output.Length);
+            model = createSeriesClassificationModel();
+        } else
+        {
+            Debug.Log("Error: unknown learning type");
+        }
+
+        Debug.Log("created model");
+        Debug.Log(model);
+
+        IntPtr trainingSet = createTrainingSet();
+        //for(int i = 0; i < trainingExamples.Length; i++)
+        if (learningType != LearningType.DTW)
+        {
+            foreach (TrainingExample example in trainingExamples)
+            {
+                addTrainingExample(trainingSet, example.input, example.input.Length, example.output, example.output.Length);
+            }
         }
 
         Debug.Log("created training set");
 
-        if (classification)
+        if (learningType == LearningType.Classification)
         {
             if (!trainClassification(model, trainingSet))
             {
                 Debug.Log("training failed");
             }
-        }
-        else
+        } else if (learningType == LearningType.Regression)
         {
             if (!trainRegression(model, trainingSet))
             {
                 Debug.Log("training failed");
             }
+        } else if (learningType == LearningType.DTW)
+        {
+            if(trainingSerieses.Count == 0)
+            {
+                destroyModel(model);
+                model = (IntPtr)0;
+                Debug.Log("no training series, aborting learning and destroying model");
+            } else {
+                Debug.Log(model);
+                resetSeriesClassification(model);
+                foreach (TrainingSeries series in trainingSerieses)
+                {
+                    trainingSet = createTrainingSet();
+                    //for(int i = 0; i < trainingExamples.Length; i++)
+                    foreach (TrainingExample example in series.examples)
+                    {
+                        Debug.Log(example);
+                        addTrainingExample(trainingSet, example.input, example.input.Length, example.output, example.output.Length);
+                    }
+                    Debug.Log(model);
+                    Debug.Log(trainingSet);
+                    if (!addSeries(model, trainingSet))
+                    {
+                        Debug.Log("training failed");
+                    }
+                }
+            }
+            
+                
+        } else
+        {
+            Debug.Log("Error: unknown learning type");
         }
 
         Debug.Log("finished training");
@@ -183,7 +271,7 @@ public class RapidLib: MonoBehaviour {
         Debug.Log("about to save");
 
         //jsonString = getJSON(model);
-        if (!classification)
+        if (learningType == LearningType.Regression)
         {
             jsonString = Marshal.PtrToStringAnsi(getJSON(model));
         }
@@ -193,33 +281,121 @@ public class RapidLib: MonoBehaviour {
         Debug.Log(jsonString);
     }
 
+    public void StartCollectingData()
+    {
+        
+        collectData = true;
+    }
+
+    public void StopCollectingData()
+    {
+        if (learningType == LearningType.DTW)
+        {
+            if (!run)
+            {
+                trainingSerieses.Add(new TrainingSeries());
+                trainingSerieses.Last().examples = new List<TrainingExample>(trainingExamples);
+            }
+            trainingExamples.Clear();
+        }
+        collectData = false;
+    }
+
+    public void ToggleCollectingData()
+    {
+        if (collectData)
+        {
+            StopCollectingData();
+        } else
+        {
+            StartCollectingData();
+        }
+    }
+
+    public void StartRunning()
+    {
+        run = true;
+        if (learningType == LearningType.DTW)
+        {
+            StartCollectingData();
+        } else
+        {
+            StopCollectingData();
+        }
+    }
+
+    public void StopRunning()
+    {
+        if (learningType == LearningType.DTW)
+        {
+            StopCollectingData();
+        } 
+        run = false;
+    }
+
+    public void ToggleRunning()
+    {
+        if (run)
+        {
+            StopRunning();
+        }
+        else
+        {
+            StartRunning();
+        }
+    }
+
     void Update()
     {
-        if (run && (int)model != 0) { 
-            double [] input = new double[3 * inputs.Length];
-
-            for (int i = 0; i < inputs.Length; i++)
+        //Debug.Log(model);
+        if (run && (int)model != 0) {
+            if (learningType == LearningType.DTW)
             {
-                input[3 * i] = inputs[i].position.x;
-                input[3 * i + 1] = inputs[i].position.y;
-                input[3 * i + 2] = inputs[i].position.z;
+                Debug.Log("running");
+                IntPtr trainingSet = createTrainingSet();
+                //for(int i = 0; i < trainingExamples.Length; i++)
+                foreach (TrainingExample example in trainingExamples)
+                {
+                    addTrainingExample(trainingSet, example.input, example.input.Length, example.output, example.output.Length);
+                }
+                if(outputs.Length < 1)
+                {
+                    outputs = new double[1];
+                }
+                Debug.Log(model);
+                Debug.Log(trainingSet);
+                outputs[0] = runSeriesClassification(model, trainingSet);
+                Debug.Log(outputs[0]);
             }
-
-            //Debug.Log(input);
-            //Debug.Log(input.Length);
-            //for (int i = 0; i < input.Length; i++)
-            //{
-            //    Debug.Log(input[i]);
-            //}
-
-            //Debug.Log(outputs);
-            //Debug.Log(outputs.Length);
-            for (int i = 0; i < outputs.Length; i++)
+            else
             {
-                Debug.Log(outputs[i]);
+                double[] input = new double[3 * inputs.Length];
+
+                for (int i = 0; i < inputs.Length; i++)
+                {
+                    input[3 * i] = inputs[i].position.x;
+                    input[3 * i + 1] = inputs[i].position.y;
+                    input[3 * i + 2] = inputs[i].position.z;
+                }
+
+                //Debug.Log(input);
+                //Debug.Log(input.Length);
+                //for (int i = 0; i < input.Length; i++)
+                //{
+                //    Debug.Log(input[i]);
+                //}
+
+                //Debug.Log(outputs);
+                //Debug.Log(outputs.Length);
+                for (int i = 0; i < outputs.Length; i++)
+                {
+                    Debug.Log(outputs[i]);
+                }
+                process(model, input, input.Length, outputs, outputs.Length);
             }
-            process(model, input, input.Length, outputs, outputs.Length);
-       } else if (collectData) {
+       }
+
+       if (collectData) {
             AddTrainingExample();
        }
 
@@ -227,7 +403,7 @@ public class RapidLib: MonoBehaviour {
 
         if (Input.GetKeyDown("space"))
         {
-            collectData = !collectData;
+            StartCollectingData();
         }
 
 #endif

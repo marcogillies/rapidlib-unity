@@ -15,6 +15,15 @@ public class RapidLibEditor : Editor
         {
             rapidLib.AddTrainingExample();
         }
+        if (GUILayout.Button("Collect Data"))
+        {
+            rapidLib.ToggleCollectingData();
+        }
+
+        if (GUILayout.Button("Run"))
+        {
+            rapidLib.ToggleRunning();
+        }
         if (GUILayout.Button("train"))
         {
             rapidLib.Train();

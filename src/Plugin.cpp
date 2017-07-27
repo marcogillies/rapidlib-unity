@@ -12,6 +12,7 @@
 #include <memory>
 #include "regression.h"
 #include "classification.h"
+#include "seriesClassification.h"
 
 
 std::vector < std::unique_ptr <regression> > regression_models;
@@ -38,6 +39,17 @@ EXPORT_API classification * createClassificationModel() {
 	return new classification();
 }
 
+
+EXPORT_API seriesClassification * createSeriesClassificationModel() {
+	//regression_models.push_back(std::unique_ptr<regression>(new regression(3, 4)));
+	//return regression_models.back().get();
+	return new seriesClassification();
+}
+
+
+EXPORT_API void destroySeriesClassificationModel(seriesClassification *model) {
+	delete model;
+}
 
 EXPORT_API const char * getJSON(modelSet *model) {
 	std::string jsonString = model->getJSON();
@@ -98,12 +110,12 @@ EXPORT_API double getOutput(std::vector<trainingExample> *trainingSet, int i, in
 }
 
 EXPORT_API bool trainRegression(regression *model, std::vector<trainingExample> *trainingSet) {
-	model->initialize();
+	//model->initialize();
 	return  model->train(*trainingSet);
 }
 
 EXPORT_API bool trainClassification(classification *model, std::vector<trainingExample> *trainingSet) {
-	model->initialize();
+	//model->initialize();
 	return  model->train(*trainingSet);
 }
 
@@ -112,7 +124,7 @@ EXPORT_API int process(modelSet *model, double *input, int numInputs, double *ou
 	for (int i = 0; i < numInputs; i++) {
 		inputVector.push_back(input[i]);
 	}
-	std::vector<double> outputVector = model->process(inputVector);
+	std::vector<double> outputVector = model->run(inputVector);
 	
 	if (numOutputs > outputVector.size()) {
 		numOutputs = outputVector.size();
@@ -124,6 +136,31 @@ EXPORT_API int process(modelSet *model, double *input, int numInputs, double *ou
 	return numOutputs;
 }
 
+EXPORT_API void resetSeriesClassification(seriesClassification *model) {
+	//model->initialize();
+    model->reset();
+}
 
+EXPORT_API bool addSeries(seriesClassification *model, std::vector<trainingExample> *trainingSet) {
+	//model->initialize();
+	return  model->addTrainingSet(*trainingSet);
+}
+
+EXPORT_API int runSeriesClassification(seriesClassification *model, std::vector<trainingExample> *trainingSet) {
+	return model->runTrainingSet(*trainingSet);
+}
+
+EXPORT_API int getSeriesClassificationCosts(seriesClassification *model, double *output, int numOutputs) {
+	std::vector<double> outputVector = model->getCosts();
+
+	if (numOutputs > outputVector.size()) {
+		numOutputs = outputVector.size();
+	}
+
+	for (int i = 0; i < numOutputs; i++) {
+		output[i] = outputVector[i];
+	}
+	return numOutputs;
+}
 
 } // end of export C block

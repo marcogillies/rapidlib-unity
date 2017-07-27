@@ -137,6 +137,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;RAPIDLIBPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\marco\Documents\code\git\rapidlib-unity\rapidlib\dependencies\json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,25 +150,36 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\rapidlib\dependancies\json\json-forwards.h" />
-    <ClInclude Include="..\..\..\rapidlib\dependancies\json\json.h" />
+    <ClInclude Include="..\..\..\rapidlib\dependencies\json\json-forwards.h" />
+    <ClInclude Include="..\..\..\rapidlib\dependencies\json\json.h" />
+    <ClInclude Include="..\..\..\rapidlib\dependencies\libsvm\libsvm.h" />
     <ClInclude Include="..\..\..\rapidlib\src\baseModel.h" />
     <ClInclude Include="..\..\..\rapidlib\src\classification.h" />
+    <ClInclude Include="..\..\..\rapidlib\src\dtw.h" />
     <ClInclude Include="..\..\..\rapidlib\src\knnClassification.h" />
     <ClInclude Include="..\..\..\rapidlib\src\knnEmbindings.h" />
     <ClInclude Include="..\..\..\rapidlib\src\modelSet.h" />
     <ClInclude Include="..\..\..\rapidlib\src\neuralNetwork.h" />
+    <ClInclude Include="..\..\..\rapidlib\src\rapidStream.h" />
     <ClInclude Include="..\..\..\rapidlib\src\regression.h" />
+    <ClInclude Include="..\..\..\rapidlib\src\seriesClassification.h" />
+    <ClInclude Include="..\..\..\rapidlib\src\svmClassification.h" />
+    <ClInclude Include="..\..\..\rapidlib\src\trainingExample.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\rapidlib\dependancies\jsoncpp.cpp" />
+    <ClCompile Include="..\..\..\rapidlib\dependencies\jsoncpp.cpp" />
+    <ClCompile Include="..\..\..\rapidlib\dependencies\libsvm\libsvm.cpp" />
     <ClCompile Include="..\..\..\rapidlib\src\classification.cpp" />
+    <ClCompile Include="..\..\..\rapidlib\src\dtw.cpp" />
     <ClCompile Include="..\..\..\rapidlib\src\knnClassification.cpp" />
     <ClCompile Include="..\..\..\rapidlib\src\modelSet.cpp" />
     <ClCompile Include="..\..\..\rapidlib\src\neuralNetwork.cpp" />
+    <ClCompile Include="..\..\..\rapidlib\src\rapidStream.cpp" />
     <ClCompile Include="..\..\..\rapidlib\src\regression.cpp" />
+    <ClCompile Include="..\..\..\rapidlib\src\seriesClassification.cpp" />
+    <ClCompile Include="..\..\..\rapidlib\src\svmClassification.cpp" />
     <ClCompile Include="..\..\..\src\Plugin.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>

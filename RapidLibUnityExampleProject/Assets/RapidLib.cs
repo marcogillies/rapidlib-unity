@@ -373,20 +373,23 @@ public class RapidLib: MonoBehaviour {
             if (learningType == LearningType.DTW)
             {
                 Debug.Log("running");
-                IntPtr trainingSet = createTrainingSet();
-                //for(int i = 0; i < trainingExamples.Length; i++)
-                foreach (TrainingExample example in trainingExamples)
+                if (trainingExamples.Count > 0)
                 {
-                    addTrainingExample(trainingSet, example.input, example.input.Length, example.output, example.output.Length);
+                    IntPtr trainingSet = createTrainingSet();
+
+                    foreach (TrainingExample example in trainingExamples)
+                    {
+                        addTrainingExample(trainingSet, example.input, example.input.Length, example.output, example.output.Length);
+                    }
+                    if (outputs.Length < 1)
+                    {
+                        outputs = new double[1];
+                    }
+                    Debug.Log(model);
+                    Debug.Log(trainingSet);
+                    outputs[0] = runSeriesClassification(model, trainingSet);
+                    Debug.Log(outputs[0]);
                 }
-                if(outputs.Length < 1)
-                {
-                    outputs = new double[1];
-                }
-                Debug.Log(model);
-                Debug.Log(trainingSet);
-                outputs[0] = runSeriesClassification(model, trainingSet);
-                Debug.Log(outputs[0]);
             }
             else
             {
@@ -417,11 +420,11 @@ public class RapidLib: MonoBehaviour {
        }
 
        if (collectData) {
-            if (Application.isPlaying && Time.time >= timeToStopCapture) {
+            if (Application.isPlaying && timeToStopCapture  > 0 &&  Time.time >= timeToStopCapture) {
 				collectData = false;
 				Debug.Log ("end recording");
 			} else if (!Application.isPlaying || Time.time >= timeToNextCapture) {
-				Debug.Log ("recording");
+				//Debug.Log ("recording");
 				AddTrainingExample ();
 				timeToNextCapture = Time.time + 1.0f / captureRate;
 			}

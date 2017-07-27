@@ -147,6 +147,8 @@ EXPORT_API bool addSeries(seriesClassification *model, std::vector<trainingExamp
 }
 
 EXPORT_API int runSeriesClassification(seriesClassification *model, std::vector<trainingExample> *trainingSet) {
+	//model->reset();
+	//return 0;
 	return model->runTrainingSet(*trainingSet);
 }
 
